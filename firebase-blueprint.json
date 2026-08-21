@@ -1,0 +1,73 @@
+{
+  "entities": {
+    "SaleOrder": {
+      "title": "SaleOrder",
+      "description": "A single sale transaction or MercadoLibre order for Cucciolos",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique order identifier" },
+        "date": { "type": "string", "description": "Date and time string of the sale" },
+        "productTitle": { "type": "string", "description": "Title of the sold product" },
+        "sku": { "type": "string", "description": "SKU identifier of the item" },
+        "variant": { "type": "string", "description": "Variant, size, or color description" },
+        "quantity": { "type": "number", "description": "Number of units sold" },
+        "unitPrice": { "type": "number", "description": "Unit sale price in ARS" },
+        "totalAmount": { "type": "number", "description": "Total gross amount in ARS" },
+        "mlCommission": { "type": "number", "description": "MercadoLibre commission in ARS" },
+        "netAmount": { "type": "number", "description": "Net amount received by Cucciolos in ARS" },
+        "shippingType": { "type": "string", "description": "Shipping method (Mercado Envíos Flex, Colecta, Full, etc)" },
+        "status": { "type": "string", "description": "Current status (Por despachar, En camino, Entregado, etc)" },
+        "buyerName": { "type": "string", "description": "Name or username of the buyer" },
+        "buyerCity": { "type": "string", "description": "City or destination region" },
+        "channel": { "type": "string", "description": "Channel of sale (MercadoLibre Clásica, Premium, Full, etc)" },
+        "category": { "type": "string", "description": "Product category" },
+        "notes": { "type": "string", "description": "Tracking or internal notes" },
+        "updatedAt": { "type": "string", "description": "ISO timestamp of last update" }
+      },
+      "required": ["id", "date", "productTitle", "sku", "quantity", "unitPrice", "totalAmount", "status"]
+    },
+    "ProductInventory": {
+      "title": "ProductInventory",
+      "description": "Inventory and stock record for a product/SKU in Cucciolos factory",
+      "type": "object",
+      "properties": {
+        "sku": { "type": "string", "description": "Unique SKU code" },
+        "title": { "type": "string", "description": "Product name" },
+        "category": { "type": "string", "description": "Category name" },
+        "variant": { "type": "string", "description": "Size/variant specification" },
+        "currentStock": { "type": "number", "description": "Current physical stock quantity" },
+        "minStockThreshold": { "type": "number", "description": "Minimum safety threshold before low stock alert" },
+        "price": { "type": "number", "description": "Standard retail price in ARS" },
+        "status": { "type": "string", "description": "Stock health status: optimal, low, or critical" },
+        "unitsSoldTotal": { "type": "number", "description": "Total units sold recorded" },
+        "updatedAt": { "type": "string", "description": "ISO timestamp of last update" }
+      },
+      "required": ["sku", "title", "currentStock", "minStockThreshold", "price"]
+    },
+    "SyncConfig": {
+      "title": "SyncConfig",
+      "description": "Configuration metadata for Google Sheets and automatic sync state",
+      "type": "object",
+      "properties": {
+        "spreadsheetId": { "type": "string", "description": "Active Google Spreadsheet ID" },
+        "lastSyncTime": { "type": "string", "description": "ISO timestamp of last sync" },
+        "autoRefreshEnabled": { "type": "boolean", "description": "Whether 30m auto sync is enabled" },
+        "totalOrders": { "type": "number", "description": "Cached order count" }
+      }
+    }
+  },
+  "firestore": {
+    "/orders/{orderId}": {
+      "schema": "SaleOrder",
+      "description": "Collection of all sales and MercadoLibre orders for Cucciolos"
+    },
+    "/products/{sku}": {
+      "schema": "ProductInventory",
+      "description": "Collection of factory inventory and stock thresholds per SKU"
+    },
+    "/settings/{configId}": {
+      "schema": "SyncConfig",
+      "description": "System settings and sync status metadata"
+    }
+  }
+}

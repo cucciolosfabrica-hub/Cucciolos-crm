@@ -1,0 +1,8 @@
+{
+  "name": "Cucciolos CRM",
+  "description": "Dashboard CRM para monitorear y registrar ventas de MercadoLibre en tiempo real sincronizado con Google Sheets con alertas de stock bajo y métricas de rendimiento.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

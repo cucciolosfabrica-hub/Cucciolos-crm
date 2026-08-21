@@ -1,0 +1,17 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Orders collection: read and write allowed for Cucciolos CRM
+    match /orders/{orderId} {
+      allow read, write: if true;
+    }
+    // Products inventory collection
+    match /products/{sku} {
+      allow read, write: if true;
+    }
+    // Settings and sync configs
+    match /settings/{configId} {
+      allow read, write: if true;
+    }
+  }
+}
